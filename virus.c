@@ -36,7 +36,6 @@ int main(){
   }
 
 
-  system("mkdir .hola");//supuesta carpeta oculta
   /*
   FILE *fp;
 
